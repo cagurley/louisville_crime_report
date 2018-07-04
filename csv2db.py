@@ -7,21 +7,17 @@ Created on Thu Jun 28 12:30:46 2018
 
 import csv
 import re
-import sqlite3
 
 
-def _parse_lmpd_hc_csv():
+def _parse_csv_data(file_name):
     rows = []
-    with open('LMPD_OP_BIAS_7.csv') as raw_hc_data:
+    with open('data/' + file_name + '.csv') as raw_hc_data:
         reader = csv.reader(raw_hc_data)
         for row in reader:
             stripped_row = []
             for entry in row:
                 stripped_row.append(entry.strip().upper())
             rows.append(stripped_row)
-    for row in rows:
-        if row[15] == 'LVIL':
-            row[15] = 'LOUISVILLE'
 
     header = rows.pop(0)
     for counter, name in enumerate(header):
@@ -95,30 +91,3 @@ def _compile_ct_statement(header, col_types, table_name):
             + "\n);"
         )
         return ct_statement
-
-
-header, rows = _parse_lmpd_hc_csv()
-column_types = _declare_col_types(header, rows)
-hc_values = []
-for row in rows:
-    hc_values.append(tuple(row))
-hc_table_name = 'LOU_HATE_CRIMES'
-hc_create_statement = _compile_ct_statement(
-    header, column_types, hc_table_name
-)
-print(hc_create_statement)
-
-conn = sqlite3.connect('lou_hate_crime_database.db')
-cur = conn.cursor()
-try:
-    cur.execute("DROP TABLE IF EXISTS {};".format(hc_table_name))
-    cur.execute(hc_create_statement)
-    cur.executemany("""
-                    INSERT INTO {}
-                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    """.format(hc_table_name), hc_values)
-    conn.commit()
-finally:
-    conn.rollback()
-    cur.close()
-    conn.close()
