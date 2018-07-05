@@ -9,22 +9,31 @@ import csv2db
 import sqlite3
 
 
-child_tables = {
+# This dict maps files to tables in a one-to-one relationship.
+single_tables = {
     'HATE_CRIMES': 'LMPD_OP_BIAS_7',
     'OFFICER_ASSAULTS': 'AssaultedOfficerData',
-    'FIREARM_INTAKE': 'FIREARMS_DATA_0_0',
-    'CRIMES_2008': 'Crime_Data_2008',
-    'CRIMES_2009': 'Crime_Data_2009',
-    'CRIMES_2010': 'Crime_Data_2010',
-    'CRIMES_2011': 'Crime_Data_2011',
-    'CRIMES_2012': 'Crime_Data_2012',
-    'CRIMES_2013': 'Crime_Data_2013',
-    'CRIMES_2014': 'Crime_Data_2014',
-    'CRIMES_2015': 'Crime_Data_2015',
-    'CRIMES_2016': 'Crime_Data_2016_29',
-    'CRIMES_2017': 'Crime_Data_2017_1'
+    'FIREARM_INTAKE': 'FIREARMS_DATA_0_0'
 }
-for table_name, file_name in child_tables.items():
+# This structure maps files to tables in a many-to-one relationship.
+# For this DB, only crime data needs to merged from single-year files.
+merge_tables = [
+    ('CRIMES', [
+        'Crime_Data_2008',
+        'Crime_Data_2009',
+        'Crime_Data_2010',
+        'Crime_Data_2011',
+        'Crime_Data_2012',
+        'Crime_Data_2013',
+        'Crime_Data_2014',
+        'Crime_Data_2015',
+        'Crime_Data_2016_29',
+        'Crime_Data_2017_1'
+    ])
+]
+
+# This block creates and inserts data into the one-to-one tables
+for table_name, file_name in single_tables.items():
     header, rows = csv2db.parse_csv_data(file_name)
     column_types = csv2db.declare_col_types(header, rows)
     for row in rows:
@@ -58,6 +67,62 @@ for table_name, file_name in child_tables.items():
         cur.execute("DROP TABLE IF EXISTS {};".format(table_name))
         cur.execute(create_statement)
         cur.executemany(insert_statement.format(table_name), table_values)
+        conn.commit()
+    finally:
+        conn.rollback()
+        cur.close()
+        conn.close()
+
+# This block merges files, then creates and inserts data into "merged" tables
+for table_name, file_names in merge_tables:
+    file_headers = []
+    file_col_types = []
+    file_rows = []
+    for file_name in file_names:
+        header, rows = csv2db.parse_csv_data(file_name)
+        col_types = csv2db.declare_col_types(header, rows)
+        for row in rows:
+            entry_counter = 0
+            for entry in row:
+                if entry == 'LVIL':
+                    row[entry_counter] = 'LOUISVILLE'
+                elif entry == 'NULL':
+                    row[entry_counter] = None
+                entry_counter += 1
+        file_headers.append(header)
+        file_col_types.append(col_types)
+        file_rows.append(rows)
+
+    table_header, table_col_types, table_rows = csv2db.merge_to_table(
+        file_headers, file_col_types, file_rows
+    )
+
+    table_values = []
+    for row in table_rows:
+        table_values.append(tuple(row))
+    create_statement = csv2db.compile_ct_statement(
+        table_header, table_col_types, table_name
+    )
+    print(create_statement)
+
+    insert_statement = (
+        """
+        INSERT INTO {}
+        VALUES(
+        """
+        + ('?, '*len(table_header)).rstrip(', ')
+        + ');'
+    )
+
+    conn = sqlite3.connect('lou_crime_database.db')
+    cur = conn.cursor()
+    try:
+        cur.execute("DROP TABLE IF EXISTS {};".format(table_name))
+        cur.execute(create_statement)
+        cur.executemany(
+            insert_statement.format(table_name),
+            table_values
+        )
         conn.commit()
     finally:
         conn.rollback()

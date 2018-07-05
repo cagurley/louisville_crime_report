@@ -93,12 +93,30 @@ def compile_ct_statement(header, col_types, table_name):
         return ct_statement
 
 
-#def merge_to_table(header_group, col_types_group, rows_list_group):
-#    try:
-#        counter = 0
-#        for header in header_group:
-#            while counter < len(header_group[0])
-#            if header[counter] == header_group[0][counter]:
-#                counter += 1
-#            else:
-#                raise ValueError("Header mismatch")
+def merge_to_table(header_group, col_types_group, rows_list_group):
+    try:
+        lengths = set()
+        header_set = set()
+        col_types_set = set()
+        for header in header_group:
+            lengths.add(len(header))
+            header_set.add(tuple(header))
+        for col_types in col_types_group:
+            lengths.add(len(col_types))
+            col_types_set.add(tuple(col_types))
+        for rows_list in rows_list_group:
+            for row in rows_list:
+                lengths.add(len(row))
+        if len(lengths) != 1:
+            raise IndexError("Non-uniform row lengths")
+        elif len(header_set) != 1 or len(col_types_set) != 1:
+            raise ValueError("Non-uniform column defintions")
+    except IndexError:
+        print("Ensure that all data is of uniform, positive length")
+    except ValueError:
+        print("Ensure that headers and column types are identical")
+    else:
+        merged_rows = []
+        for rows_list in rows_list_group:
+            merged_rows.extend(rows_list)
+        return list(header_set.pop()), list(col_types_set.pop()), merged_rows
