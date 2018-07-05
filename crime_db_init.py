@@ -25,8 +25,8 @@ child_tables = {
     'CRIMES_2017': 'Crime_Data_2017_1'
 }
 for table_name, file_name in child_tables.items():
-    header, rows = csv2db._parse_csv_data(file_name)
-    column_types = csv2db._declare_col_types(header, rows)
+    header, rows = csv2db.parse_csv_data(file_name)
+    column_types = csv2db.declare_col_types(header, rows)
     for row in rows:
         entry_counter = 0
         for entry in row:
@@ -38,7 +38,7 @@ for table_name, file_name in child_tables.items():
     table_values = []
     for row in rows:
         table_values.append(tuple(row))
-    create_statement = csv2db._compile_ct_statement(
+    create_statement = csv2db.compile_ct_statement(
         header, column_types, table_name
     )
     print(create_statement)

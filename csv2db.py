@@ -9,7 +9,7 @@ import csv
 import re
 
 
-def _parse_csv_data(file_name):
+def parse_csv_data(file_name):
     rows = []
     with open('data/' + file_name + '.csv') as raw_hc_data:
         reader = csv.reader(raw_hc_data)
@@ -27,7 +27,7 @@ def _parse_csv_data(file_name):
     return header, rows
 
 
-def _declare_col_types(header, rows):
+def declare_col_types(header, rows):
     try:
         lengths = {len(header)}
         for row in rows:
@@ -61,7 +61,7 @@ def _declare_col_types(header, rows):
         return col_types
 
 
-def _compile_ct_statement(header, col_types, table_name):
+def compile_ct_statement(header, col_types, table_name):
     try:
         if re.search(r'\W+', table_name) is not None:
             raise ValueError("Table name error")
@@ -91,3 +91,14 @@ def _compile_ct_statement(header, col_types, table_name):
             + "\n);"
         )
         return ct_statement
+
+
+#def merge_to_table(header_group, col_types_group, rows_list_group):
+#    try:
+#        counter = 0
+#        for header in header_group:
+#            while counter < len(header_group[0])
+#            if header[counter] == header_group[0][counter]:
+#                counter += 1
+#            else:
+#                raise ValueError("Header mismatch")
