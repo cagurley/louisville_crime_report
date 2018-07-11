@@ -7,6 +7,7 @@ Created on Thu Jun 28 12:30:46 2018
 
 import csv
 import re
+import sqlite3
 
 
 def parse_csv_data(file_name):
@@ -120,3 +121,31 @@ def merge_to_table(header_group, col_types_group, rows_list_group):
         for rows_list in rows_list_group:
             merged_rows.extend(rows_list)
         return list(header_set.pop()), list(col_types_set.pop()), merged_rows
+
+
+def select_to_csv(db_path, select_statement, file_name='new_query'):
+    try:
+        if (re.search(r'^select.+;$', select_statement.strip(), flags=re.I | re.S) is None
+                or len(re.findall(r';', select_statement)) != 1):
+            raise ValueError("Invalid select statement")
+    except ValueError as e:
+        print(e)
+    else:
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        try:
+            file_path = 'queries/' + file_name + '.csv'
+            cur.execute(select_statement)
+            with open(file_path, 'w', newline='') as csvfile:
+                csvwriter = csv.writer(csvfile)
+                header = []
+                for entry in cur.description:
+                    header.append(entry[0])
+                csvwriter.writerow(header)
+                csvwriter.writerows(cur.fetchall())
+            conn.commit()
+        finally:
+            conn.rollback()
+            cur.close()
+            conn.close()
+    return None
