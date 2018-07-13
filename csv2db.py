@@ -12,8 +12,8 @@ import sqlite3
 
 def parse_csv_data(file_name):
     rows = []
-    with open('data/' + file_name + '.csv') as raw_hc_data:
-        reader = csv.reader(raw_hc_data)
+    with open('data/' + file_name + '.csv') as raw_data:
+        reader = csv.reader(raw_data)
         for row in reader:
             stripped_row = []
             for entry in row:
