@@ -125,7 +125,7 @@ def merge_to_table(header_group, col_types_group, rows_list_group):
 
 def select_to_csv(db_path, select_statement, file_name='new_query'):
     try:
-        if (re.search(r'^select.+;$', select_statement.strip(), flags=re.I | re.S) is None
+        if (re.search(r'^(?:with|select).+;$', select_statement.strip(), flags=re.I | re.S) is None
                 or len(re.findall(r';', select_statement)) != 1):
             raise ValueError("Invalid select statement")
     except ValueError as e:
