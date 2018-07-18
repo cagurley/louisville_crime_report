@@ -35,7 +35,10 @@ merge_tables = [
 # This block creates and inserts data into the one-to-one tables
 for table_name, file_name in single_tables.items():
     header, rows = csv2db.parse_csv_data(file_name)
-    column_types = csv2db.declare_col_types(header, rows)
+    for index, field in enumerate(header):
+        if field == 'DATE_OCCURED':
+            header[index] = 'DATE_OCCURRED'
+    col_types = csv2db.declare_col_types(header, rows)
     for row in rows:
         entry_counter = 0
         for entry in row:
@@ -47,8 +50,11 @@ for table_name, file_name in single_tables.items():
     table_values = []
     for row in rows:
         table_values.append(tuple(row))
+    temp_statement = csv2db.compile_ct_statement(
+        header, col_types, table_name, True
+    )
     create_statement = csv2db.compile_ct_statement(
-        header, column_types, table_name
+        header, col_types, table_name
     )
     print(create_statement)
 
@@ -64,9 +70,21 @@ for table_name, file_name in single_tables.items():
     conn = sqlite3.connect('lou_crime_database.db')
     cur = conn.cursor()
     try:
+        cur.execute("DROP TABLE IF EXISTS {};".format('TEMP_' + table_name))
+        cur.execute(temp_statement)
+        cur.executemany(
+            insert_statement.format('TEMP_' + table_name), table_values
+        )
+        conn.commit()
         cur.execute("DROP TABLE IF EXISTS {};".format(table_name))
         cur.execute(create_statement)
-        cur.executemany(insert_statement.format(table_name), table_values)
+        cur.execute(
+            """
+            INSERT INTO {0}
+            SELECT DISTINCT *
+            FROM TEMP_{0};
+            """.format(table_name)
+        )
         conn.commit()
     finally:
         conn.rollback()
@@ -80,15 +98,16 @@ for table_name, file_names in merge_tables:
     file_rows = []
     for file_name in file_names:
         header, rows = csv2db.parse_csv_data(file_name)
+        for index, field in enumerate(header):
+            if field == 'DATE_OCCURED':
+                header[index] = 'DATE_OCCURRED'
         col_types = csv2db.declare_col_types(header, rows)
         for row in rows:
-            entry_counter = 0
-            for entry in row:
+            for index, entry in enumerate(row):
                 if entry == 'LVIL':
-                    row[entry_counter] = 'LOUISVILLE'
+                    row[index] = 'LOUISVILLE'
                 elif entry == 'NULL':
-                    row[entry_counter] = None
-                entry_counter += 1
+                    row[index] = None
         file_headers.append(header)
         file_col_types.append(col_types)
         file_rows.append(rows)
@@ -100,6 +119,9 @@ for table_name, file_names in merge_tables:
     table_values = []
     for row in table_rows:
         table_values.append(tuple(row))
+    temp_statement = csv2db.compile_ct_statement(
+        table_header, table_col_types, table_name, True
+    )
     create_statement = csv2db.compile_ct_statement(
         table_header, table_col_types, table_name
     )
@@ -117,11 +139,20 @@ for table_name, file_names in merge_tables:
     conn = sqlite3.connect('lou_crime_database.db')
     cur = conn.cursor()
     try:
+        cur.execute("DROP TABLE IF EXISTS {};".format('TEMP_' + table_name))
+        cur.execute(temp_statement)
+        cur.executemany(
+            insert_statement.format('TEMP_' + table_name), table_values
+        )
+        conn.commit()
         cur.execute("DROP TABLE IF EXISTS {};".format(table_name))
         cur.execute(create_statement)
-        cur.executemany(
-            insert_statement.format(table_name),
-            table_values
+        cur.execute(
+            """
+            INSERT INTO {0}
+            SELECT DISTINCT *
+            FROM TEMP_{0};
+            """.format(table_name)
         )
         conn.commit()
     finally:

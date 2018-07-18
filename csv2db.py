@@ -62,7 +62,7 @@ def declare_col_types(header, rows):
         return col_types
 
 
-def compile_ct_statement(header, col_types, table_name):
+def compile_ct_statement(header, col_types, table_name, temporary=False):
     try:
         if re.search(r'\W+', table_name) is not None:
             raise ValueError("Table name error")
@@ -84,8 +84,13 @@ def compile_ct_statement(header, col_types, table_name):
             )
             counter += 1
         statement_center = statement_center.rstrip(',')
+        temp_mod = ['', '']
+        if temporary is True:
+            temp_mod[0] = 'TEMP '
+            temp_mod[1] = 'TEMP_'
         ct_statement = (
-            "CREATE TABLE IF NOT EXISTS "
+            "CREATE {}TABLE IF NOT EXISTS ".format(temp_mod[0])
+            + temp_mod[1]
             + table_name
             + "("
             + statement_center
