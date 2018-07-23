@@ -50,7 +50,7 @@ try:
             ORDER BY 1, 2;
         """
     )
-    results =  cur.fetchall()
+    results = cur.fetchall()
     conn.commit()
 finally:
     conn.rollback()
@@ -122,8 +122,13 @@ for row in results:
 #print(theft_larceny)
 #print(vandalism)
 #print(vehicle_breakin_theft)
-#print(weapons)
+print(weapons)
+print(weapons.keys())
+print(weapons.values())
 
-plt.hist(weapons.values)
+#bins = list(weapons.keys())
+#for index, value in enumerate(bins):
+#    bins[index] = int(value)
+plt.plot(weapons.keys(), weapons.values(), 'o')
 plt.show()
     
