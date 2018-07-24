@@ -33,7 +33,7 @@ cur = conn.cursor()
 try:
     cur.execute(
         """
-        SELECT DISTINCT SUBSTR(DATE_OCCURRED, 1, 4) AS YEAR
+        SELECT DISTINCT CAST(SUBSTR(DATE_OCCURRED, 1, 4) AS INTEGER) AS YEAR
         FROM CRIMES
             WHERE YEAR >= '2008'
             ORDER BY 1;
@@ -43,7 +43,7 @@ try:
         years.append(entry[0])
     cur.execute(
         """
-        SELECT SUBSTR(DATE_OCCURRED, 1, 4) AS YEAR, CRIME_TYPE, COUNT(*) AS COUNT
+        SELECT CAST(SUBSTR(DATE_OCCURRED, 1, 4) AS INTEGER) AS YEAR, CRIME_TYPE, COUNT(*) AS COUNT
         FROM CRIMES
             WHERE YEAR >= '2008'
             GROUP BY 1, 2
@@ -125,10 +125,34 @@ for row in results:
 print(weapons)
 print(weapons.keys())
 print(weapons.values())
+print(weapons.items())
+
+x_bar = 0
+y_bar = 0
+numerator = 0
+denominator = 0
+for item in weapons.items():
+    x_bar += item[0]
+    y_bar += item[1]
+x_bar /= len(weapons.items())
+y_bar /= len(weapons.items())
+for item in weapons.items():
+    xi = item[0]
+    yi = item[1]
+    numerator += (xi - x_bar) * (yi - y_bar)
+    denominator += (xi - x_bar) * (xi - x_bar)
+b_hat = numerator / denominator
+a_hat = y_bar - b_hat*x_bar
+x0 = 2008
+y0 = a_hat + b_hat*x0
+xf = 2017
+yf = a_hat + b_hat*xf
 
 #bins = list(weapons.keys())
 #for index, value in enumerate(bins):
 #    bins[index] = int(value)
 plt.plot(weapons.keys(), weapons.values(), 'o')
+plt.plot(arson.keys(), arson.values(), 'o')
+plt.plot((x0, xf), (y0, yf))
 plt.show()
     
