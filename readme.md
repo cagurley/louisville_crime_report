@@ -17,8 +17,9 @@ The graphs for the final report are generated after selecting counts of crimes g
 
 This project uses uncompiled Python 3.6.5 scripts, and thus Python 3.6.5 or later should be installed on the relevant machine. The `csv`, `os`, `re`, and `sqlite3` standard library modules are all used; these should be installed with Python by default. In addition, the `matplotlib` non-standard library must be installed (via `pip install` or another method) in order to render the graphs. After ensuring these dependencies are satisfied, open a system shell and navigate the current working directory to the `/scripts/` subdirectory just beneath the project's top-level directory. Enter the Python shell and run `import main` to initialize the database and generate the graphs. Finally, open `report.html` in the top-level directory.
 
-_*Note:*_
-unused disclaimer
+To peruse the data via a lightweight, user-friendly GUI, downloading DB Browser for SQLite is recommended.
+
+_**Note:**_ Due to the frequently evolving scope of my project, several artifacts remain that are ultimately unused or were only intended to be used by me before the project's conclusion. This includes the assaulted officer, firearm intake, and hate crime data, which is included in the raw data files and even imported into the database despite omission from the final report, and the `crime_db_queries.py` script, which generates some query results as CSV files that helped me shape my project. One is free to examine the results of these unused endeavors, but they are neither necessary nor intended to be packaged with the final product.
 
 ### Thanks for reviewing my project! Please let me know where I can most improve.
 
