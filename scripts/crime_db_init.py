@@ -11,24 +11,24 @@ import sqlite3
 
 # This dict maps files to tables in a one-to-one relationship.
 single_tables = {
-    'HATE_CRIMES': 'LMPD_OP_BIAS_7',
-    'OFFICER_ASSAULTS': 'AssaultedOfficerData',
-    'FIREARM_INTAKE': 'FIREARMS_DATA_0_0'
+    'HATE_CRIMES': '../data/LMPD_OP_BIAS_7',
+    'OFFICER_ASSAULTS': '../data/AssaultedOfficerData',
+    'FIREARM_INTAKE': '../data/FIREARMS_DATA_0_0'
 }
 # This structure maps files to tables in a many-to-one relationship.
 # For this DB, only crime data needs to merged from single-year files.
 merge_tables = [
     ('CRIMES', [
-        'Crime_Data_2008',
-        'Crime_Data_2009',
-        'Crime_Data_2010',
-        'Crime_Data_2011',
-        'Crime_Data_2012',
-        'Crime_Data_2013',
-        'Crime_Data_2014',
-        'Crime_Data_2015',
-        'Crime_Data_2016_29',
-        'Crime_Data_2017_1'
+        '../data/Crime_Data_2008',
+        '../data/Crime_Data_2009',
+        '../data/Crime_Data_2010',
+        '../data/Crime_Data_2011',
+        '../data/Crime_Data_2012',
+        '../data/Crime_Data_2013',
+        '../data/Crime_Data_2014',
+        '../data/Crime_Data_2015',
+        '../data/Crime_Data_2016_29',
+        '../data/Crime_Data_2017_1'
     ])
 ]
 
@@ -67,7 +67,7 @@ for table_name, file_name in single_tables.items():
         + ');'
     )
 
-    conn = sqlite3.connect('lou_crime_database.db')
+    conn = sqlite3.connect('../lou_crime_database.db')
     cur = conn.cursor()
     try:
         cur.execute("DROP TABLE IF EXISTS {};".format('TEMP_' + table_name))
@@ -136,7 +136,7 @@ for table_name, file_names in merge_tables:
         + ');'
     )
 
-    conn = sqlite3.connect('lou_crime_database.db')
+    conn = sqlite3.connect('../lou_crime_database.db')
     cur = conn.cursor()
     try:
         cur.execute("DROP TABLE IF EXISTS {};".format('TEMP_' + table_name))

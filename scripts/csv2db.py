@@ -10,9 +10,9 @@ import re
 import sqlite3
 
 
-def parse_csv_data(file_name):
+def parse_csv_data(file_path):
     rows = []
-    with open('data/' + file_name + '.csv') as raw_data:
+    with open(file_path + '.csv') as raw_data:
         reader = csv.reader(raw_data)
         for row in reader:
             stripped_row = []
@@ -128,7 +128,7 @@ def merge_to_table(header_group, col_types_group, rows_list_group):
         return list(header_set.pop()), list(col_types_set.pop()), merged_rows
 
 
-def select_to_csv(db_path, select_statement, file_name='new_query'):
+def select_to_csv(db_path, select_statement, file_path='new_query'):
     try:
         if (re.search(r'^(?:with|select).+;$', select_statement.strip(), flags=re.I | re.S) is None
                 or len(re.findall(r';', select_statement)) != 1):
@@ -139,9 +139,9 @@ def select_to_csv(db_path, select_statement, file_name='new_query'):
         conn = sqlite3.connect(db_path)
         cur = conn.cursor()
         try:
-            file_path = file_name + '.csv'
+            full_path = file_path + '.csv'
             cur.execute(select_statement)
-            with open(file_path, 'w', newline='') as csvfile:
+            with open(full_path, 'w', newline='') as csvfile:
                 csvwriter = csv.writer(csvfile)
                 header = []
                 for entry in cur.description:

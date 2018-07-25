@@ -9,8 +9,8 @@ import csv2db
 import os
 
 
-if not os.path.exists('queries'):
-    os.mkdir('queries')
+if not os.path.exists('../queries'):
+    os.mkdir('../queries')
 
 select1 = """
     SELECT CRIME_TYPE, COUNT(*) AS COUNT
@@ -64,12 +64,12 @@ select9 = """
     FROM OFFICER_ASSAULTS;
     """
 
-csv2db.select_to_csv('lou_crime_database.db', select1, 'queries/CR_crime_type')
-csv2db.select_to_csv('lou_crime_database.db', select2, 'queries/CR_year')
-csv2db.select_to_csv('lou_crime_database.db', select3, 'queries/CR_crime_type_per_year')
-csv2db.select_to_csv('lou_crime_database.db', select4, 'queries/CR_year_per_crime_type')
-csv2db.select_to_csv('lou_crime_database.db', select5, 'queries/CR_FI_firearms_by_crime_year')
-csv2db.select_to_csv('lou_crime_database.db', select6, 'queries/CR_count')
-csv2db.select_to_csv('lou_crime_database.db', select7, 'queries/FI_count')
-csv2db.select_to_csv('lou_crime_database.db', select8, 'queries/HC_count')
-csv2db.select_to_csv('lou_crime_database.db', select9, 'queries/OA_count')
+csv2db.select_to_csv('../lou_crime_database.db', select1, '../queries/CR_crime_type')
+csv2db.select_to_csv('../lou_crime_database.db', select2, '../queries/CR_year')
+csv2db.select_to_csv('../lou_crime_database.db', select3, '../queries/CR_crime_type_per_year')
+csv2db.select_to_csv('../lou_crime_database.db', select4, '../queries/CR_year_per_crime_type')
+csv2db.select_to_csv('../lou_crime_database.db', select5, '../queries/CR_FI_firearms_by_crime_year')
+csv2db.select_to_csv('../lou_crime_database.db', select6, '../queries/CR_count')
+csv2db.select_to_csv('../lou_crime_database.db', select7, '../queries/FI_count')
+csv2db.select_to_csv('../lou_crime_database.db', select8, '../queries/HC_count')
+csv2db.select_to_csv('../lou_crime_database.db', select9, '../queries/OA_count')
