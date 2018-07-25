@@ -6,6 +6,7 @@ Created on Wed Jul 18 18:07:47 2018
 """
 
 from matplotlib import pyplot as plt
+import os
 import sqlite3
 
 
@@ -167,6 +168,9 @@ print(dui)
 #bins = list(weapons.keys())
 #for index, value in enumerate(bins):
 #    bins[index] = int(value)
+if not os.path.exists('graphs'):
+    os.mkdir('graphs')
+
 plt.plot(weapons.keys(), weapons.values(), 'ro')
 plt.xticks(years, years)
 plt.ylim(ymin=0)

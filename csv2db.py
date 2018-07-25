@@ -139,7 +139,7 @@ def select_to_csv(db_path, select_statement, file_name='new_query'):
         conn = sqlite3.connect(db_path)
         cur = conn.cursor()
         try:
-            file_path = 'queries/' + file_name + '.csv'
+            file_path = file_name + '.csv'
             cur.execute(select_statement)
             with open(file_path, 'w', newline='') as csvfile:
                 csvwriter = csv.writer(csvfile)
