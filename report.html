@@ -69,8 +69,25 @@
         By the positive slope of the regression lines, we can see that both types of crimes are increasing within Louisville. In addition, the resemblance in the shapes of the two datasets during the 2013-2017 span reveals striking increases in both (interestingly enough just after drops in both from 2012 counts).
       </p>
     </div>
-    <img src="./graphs/regressions_adjusted_10.png" alt="Adjusted Regressions per Crime Type 2008-2017">
-    <img src="./graphs/regressions_adjusted_05.png" alt="Adjusted Regressions per Crime Type 2013-2017">
-    <img src="./graphs/regressions_adjusted_03.png" alt="Adjusted Regressions per Crime Type 2015-2017">
+    <div>
+      <p>
+        While the shape of this data is grounds to suspect a significantly greater relative rate of increase in homicides and weapons crimes in comparison to other types of crimes, it is necessary to be able to compare rates among all crime types in spite of their differences in scale. To accomplish this, I calculated a separate adjusted linear regression for each crime type. This involves dividing the y-values (originally crime counts), the y-intercept, and the slope of each line by the mean of the y-values for the given crime type and sample size; thus, each adjusted regression reflects annual increase relative to the mean value for a given sample and its y-values represent fractions of the sample in relation the x-intercept. Regarding the x-intercept, these regressions are also translated vertically to set the x-intercept at the leftmost data point in each sample, which is purely to make facilitate easy comparison of these relative slopes (as all regressions will graphically begin at the same point).
+      </p>
+      <p>
+        Using this methodology, I constructed graphs using 10-year, 5-year, and 3-year samples, or for ranges 2008-2017, 2013-2017, and 2015-2017. The results shown below are conclusive.
+      </p>
+      <img src="./graphs/regressions_adjusted_10.png" alt="Adjusted Regressions per Crime Type 2008-2017">
+      <img src="./graphs/regressions_adjusted_05.png" alt="Adjusted Regressions per Crime Type 2013-2017">
+      <img src="./graphs/regressions_adjusted_03.png" alt="Adjusted Regressions per Crime Type 2015-2017">
+      <p>
+        In each interval, the rate of homicides exceeds the rate of all other crimes, save the rate of weapons crimes, which is consistently the highest. In particular, the 2013-2017 sample shows the starkest contrast with all other crime types, excepting the third-highest type, which understandably coincides with the beginning of the increases after the drops in 2012. The consistent positioning of weapons crimes as the highest relative rate and homicides as the second highest further indicates that this is not a short-term fluke but rather a reliable trend.
+      </p>
+      <p>
+        In conclusion, the media and the public at large are absolutely right to be concerned with the increasing homicide rate in Louisville given its near-dominant relative rate of increase in comparison to other types of crimes committed in the metro area. However, we should also address weapons crimes as at least of equal concern to public safety given its truly dominant relative rate of increase. The sure link between weapons crimes and homicides and the ability to commit other types of violent crimes with weapons should cause every Louisvillian to be deeply concerned by this trend.
+      </p>
+    </div>
+    <div>
+      <p>Colton Atticus Gurley</p>
+    </div>
   </body>
 </html>
