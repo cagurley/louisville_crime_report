@@ -3,7 +3,7 @@ Analysis of Louisville Crime Type Trends
 
 ## Background
 
-For anyone closely following local news in Louisville, Kentucky, it is well known that the number of homicides in the metro area has spiked in recent years. However, I wanted to know whether this represented a rate of increase substantially greater than that of other crime types and, moreover, if there were other, overlooked types of crimes that were increasing at approximately the same rate or greater.
+To anyone closely following local news in Louisville, Kentucky, it is well known that the number of homicides in the metro area has spiked in recent years. However, I wanted to know whether this represented a rate of increase substantially greater than that of other crime types and, moreover, if there were other, overlooked types of crimes that were increasing at approximately the same rate or greater.
 
 ## Methodology
 
@@ -16,6 +16,9 @@ The graphs for the final report are generated after selecting counts of crimes g
 ## Instructions on Running
 
 This project uses uncompiled Python 3.6.5 scripts, and thus Python 3.6.5 or later should be installed on the relevant machine. The `csv`, `os`, `re`, and `sqlite3` standard library modules are all used; these should be installed with Python by default. In addition, the `matplotlib` non-standard library must be installed (via `pip install` or another method) in order to render the graphs. After ensuring these dependencies are satisfied, open a system shell and navigate the current working directory to the `/scripts/` subdirectory just beneath the project's top-level directory. Enter the Python shell and run `import main` to initialize the database and generate the graphs. Finally, open `report.html` in the top-level directory.
+
+_*Note:*_
+unused disclaimer
 
 ### Thanks for reviewing my project! Please let me know where I can most improve.
 

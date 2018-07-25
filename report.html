@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Louisville Crime Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  </head>
+  <body>
+    <h1>Types of Crimes on the Rise in Louisville, KY</h1>
+    <h2>
+      The significant rise in homicides in the metropolitan area is well known, but the stronger increase in another type of crime deserves immediate attention.
+    </h2>
+    <div>
+      <p>
+        To anyone closely following local news in Louisville, Kentucky, it is well known that the number of homicides in the metro area has spiked in recent years. However, the rate of increase in this type of crime in comparison to other types is not emphasized in media reports, and thus it is difficult to tell how troubling this is in the broader context of crime in Louisville. Moreover, this leads to another disquieting question: are there other types of crimes that have a similarly or more intensely dramatic increase relative to the expected number of crimes of that given type?
+      </p>
+      <p>
+        In brief and after my own analysis, I conclude that indeed the rise in homicides is significantly higher than nearly all other types of crimes in Louisville and rightfully deserves strong media attention. However, there is one other type with a relative rate of increase surpassing that of homicides, and the public at large should be concerned.
+      </p>
+    </div>
+    <div>
+      <p>
+        To answer my inquiry, I used crime data from Louisville Metro Government's open data web portal provided by the Louisville Metro Police Department. I decided to use crimes from their 2008 file through their 2017 file as a 10-year basis to draw conclusions on long-term trends without using data old enough to not accurately reflect on current trends in the city. In addition, I eliminated crimes marked as occurring prior to 2008, as older crimes reported during this date range were included in the source data files.
+      </p>
+      <p>
+        These crimes have been grouped by the crime type indicated by the data's author. These crime types are as follows:
+        <ul>
+          <li>arson</li>
+          <li>assault</li>
+          <li>burglary</li>
+          <li>disturbing the peace</li>
+          <li>drugs/alcohol violations</li>
+          <li>fraud</li>
+          <li>homicide</li>
+          <li>motor vehicle theft</li>
+          <li>robbery</li>
+          <li>sex crimes</li>
+          <li>theft/larceny</li>
+          <li>vandalism</li>
+          <li>vehicle break-in/theft</li>
+          <li>weapons</li>
+        </ul>
+        Please note that one final type, DUI, was excluded due to the small sample size and high variance that became apparent during analysis; it is possible that this crime type might be inconsistently reported and confused with the more numerous "drugs/alcohol violations" category or that some other flaw in data entry and reporting is responsible for the skew. In addition, the "other" type was excluded due to the indeterminate nature of the crimes involved and the possibility for fluctuation as better classification practices are implemented.
+      </p>
+    </div>
+    <div>
+      <p>
+        For the sake of establishing the basic shape of the data, the graph below illustrates the raw counts of individual data types.
+      </p>
+      <img src="./graphs/all_standard_10.png" alt="Crimes 2008-2017">
+      <p>
+        One can immediately see that the quantities of various types crimes during the span of 2008-2017 is highly varied, with the count of some individual crime types exceeding 15,000 in some years while other counts for different types in the same years can fail to reach a total of 100. To further illustrate the situation, it is beneficial to view the linear regressions of these lines on the same plot to more clearly see how the data trends for each crime type.
+      </p>
+      <img src="./graphs/regressions_standard_10.png" alt="Linear Regressions per Crime Type 2008-2017">
+      <p>
+        As can be seen, certain types have generally increasing trends while others tend to decrease, but the comparing one regression to another is difficult due to differences in scale. This makes direct comparison of these different types of crimes difficult without manipulation. I will return to this issue later on.
+      </p>
+      <p>
+        Now, note that the blue lines at the bottom of the graphs represent homicides; this type will retain this hue throughout the graphs in this report. Likewise, red, including the line in this figure, represents the category of weapons crimes in Louisville. As a sidebar, it's good to remember that, even though this line is at the bottom of the report as the crime type with the lowest annual counts, a small number of homicides is a large problem. Put another way, the number of homicides logically shouldn't equal or even remotely approximate the number of assaults in the city (or else everyone should have long left for anywhere else).
+      </p>
+    </div>
+    <div>
+      <p>
+        As homicides and weapons charges are going to be the focus of this report, it does well to see both individually to more clearly see both their shapes and their counts. The below graphs depict their respective counts over the 10-year period as well as their simple linear regressions.
+      </p>
+      <img src="./graphs/homicides_standard_10.png" alt="Homicides 2008-2017">
+      <img src="./graphs/weapons_standard_10.png" alt="Weapons 2008-2017">
+      <p>
+        By the positive slope of the regression lines, we can see that both types of crimes are increasing within Louisville. In addition, the resemblance in the shapes of the two datasets during the 2013-2017 span reveals striking increases in both (interestingly enough just after drops in both from 2012 counts).
+      </p>
+    </div>
+    <img src="./graphs/regressions_adjusted_10.png" alt="Adjusted Regressions per Crime Type 2008-2017">
+    <img src="./graphs/regressions_adjusted_05.png" alt="Adjusted Regressions per Crime Type 2013-2017">
+    <img src="./graphs/regressions_adjusted_03.png" alt="Adjusted Regressions per Crime Type 2015-2017">
+  </body>
+</html>
