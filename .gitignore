@@ -2,3 +2,5 @@
 *.db
 # queries excluded due for relevance to final product
 queries/**
+# graphs excluded to demonstrate generation
+graphs/**
