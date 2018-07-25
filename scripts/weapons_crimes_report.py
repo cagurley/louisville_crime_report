@@ -38,7 +38,7 @@ def linear_regression(point_dict, slope_comparison=False):
     x0 = min(point_dict.keys())
     xf = max(point_dict.keys())
     if slope_comparison is True:
-        b_hat /= min(point_dict.values())
+        b_hat /= y_bar
         y0 = 0
         yf = b_hat*(xf - x0)
     else:

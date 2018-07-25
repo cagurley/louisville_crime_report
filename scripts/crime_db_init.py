@@ -58,7 +58,6 @@ for table_name, file_name in single_tables.items():
     create_statement = csv2db.compile_ct_statement(
         header, col_types, table_name
     )
-#    print(create_statement)
 
     insert_statement = (
         """
@@ -134,7 +133,6 @@ for table_name, file_names in merge_tables:
     create_statement = csv2db.compile_ct_statement(
         table_header, table_col_types, table_name
     )
-#    print(create_statement)
 
     insert_statement = (
         """
