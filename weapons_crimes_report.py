@@ -9,9 +9,46 @@ from matplotlib import pyplot as plt
 import sqlite3
 
 
+def right_subset(point_dict, num):
+    item_list = list(point_dict.items())
+    item_list.sort(key=None, reverse=True)
+    new_dict = dict()
+    new_dict.update(item_list[0:num])
+    return new_dict
+
+
+def linear_regression(point_dict, slope_comparison=False):
+    x_bar = 0
+    y_bar = 0
+    numerator = 0
+    denominator = 0
+    for item in point_dict.items():
+        x_bar += item[0]
+        y_bar += item[1]
+    x_bar /= len(point_dict.items())
+    y_bar /= len(point_dict.items())
+    for item in point_dict.items():
+        xi = item[0]
+        yi = item[1]
+        numerator += (xi - x_bar) * (yi - y_bar)
+        denominator += (xi - x_bar) * (xi - x_bar)
+    b_hat = numerator / denominator
+    a_hat = y_bar - b_hat*x_bar
+    x0 = min(point_dict.keys())
+    xf = max(point_dict.keys())
+    if slope_comparison is True:
+        b_hat /= min(point_dict.values())
+        y0 = 0
+        yf = b_hat*(xf - x0)
+    else:
+        y0 = a_hat + b_hat*x0
+        yf = a_hat + b_hat*xf
+    return (x0, xf), (y0, yf)
+
+
 arson = dict()
 assault = dict()
-buglary = dict()
+burglary = dict()
 dist_the_peace = dict()
 drugs_alcohol = dict()
 dui = dict()
@@ -60,7 +97,7 @@ finally:
 for year in years:
     arson.update([(year, 0)])
     assault.update([(year, 0)])
-    buglary.update([(year, 0)])
+    burglary.update([(year, 0)])
     dist_the_peace.update([(year, 0)])
     drugs_alcohol.update([(year, 0)])
     dui.update([(year, 0)])
@@ -80,7 +117,7 @@ for row in results:
     elif row[1] == 'ASSAULT':
         assault.update([(row[0], row[2])])
     elif row[1] == 'BURGLARY':
-        buglary.update([(row[0], row[2])])
+        burglary.update([(row[0], row[2])])
     elif row[1] == 'DISTURBING THE PEACE':
         dist_the_peace.update([(row[0], row[2])])
     elif row[1] == 'DRUGS/ALCOHOL VIOLATIONS':
@@ -112,7 +149,7 @@ for row in results:
 #print(buglary)
 #print(dist_the_peace)
 #print(drugs_alcohol)
-#print(dui)
+print(dui)
 #print(fraud)
 #print(homicide)
 #print(motor_vehicle_theft)
@@ -122,37 +159,171 @@ for row in results:
 #print(theft_larceny)
 #print(vandalism)
 #print(vehicle_breakin_theft)
-print(weapons)
-print(weapons.keys())
-print(weapons.values())
-print(weapons.items())
-
-x_bar = 0
-y_bar = 0
-numerator = 0
-denominator = 0
-for item in weapons.items():
-    x_bar += item[0]
-    y_bar += item[1]
-x_bar /= len(weapons.items())
-y_bar /= len(weapons.items())
-for item in weapons.items():
-    xi = item[0]
-    yi = item[1]
-    numerator += (xi - x_bar) * (yi - y_bar)
-    denominator += (xi - x_bar) * (xi - x_bar)
-b_hat = numerator / denominator
-a_hat = y_bar - b_hat*x_bar
-x0 = 2008
-y0 = a_hat + b_hat*x0
-xf = 2017
-yf = a_hat + b_hat*xf
+#print(weapons)
+#print(weapons.keys())
+#print(weapons.values())
+#print(weapons.items())
 
 #bins = list(weapons.keys())
 #for index, value in enumerate(bins):
 #    bins[index] = int(value)
-plt.plot(weapons.keys(), weapons.values(), 'o')
-plt.plot(arson.keys(), arson.values(), 'o')
-plt.plot((x0, xf), (y0, yf))
+plt.plot(weapons.keys(), weapons.values(), 'ro')
+plt.xticks(years, years)
+plt.ylim(ymin=0)
 plt.show()
-    
+plt.close()
+
+plt.plot(homicide.keys(), homicide.values(), 'bo')
+plt.xticks(years, years)
+plt.ylim(ymin=0)
+plt.show()
+plt.close()
+
+ars_x, ars_y = linear_regression(arson)
+ass_x, ass_y = linear_regression(assault)
+bur_x, bur_y = linear_regression(burglary)
+dis_x, dis_y = linear_regression(dist_the_peace)
+dru_x, dru_y = linear_regression(drugs_alcohol)
+dui_x, dui_y = linear_regression(dui)
+fra_x, fra_y = linear_regression(fraud)
+hom_x, hom_y = linear_regression(homicide)
+mot_x, mot_y = linear_regression(motor_vehicle_theft)
+oth_x, oth_y = linear_regression(other)
+rob_x, rob_y = linear_regression(robbery)
+sex_x, sex_y = linear_regression(sex_crimes)
+the_x, the_y = linear_regression(theft_larceny)
+van_x, van_y = linear_regression(vandalism)
+veh_x, veh_y = linear_regression(vehicle_breakin_theft)
+wea_x, wea_y = linear_regression(weapons)
+
+plt.plot(ars_x, ars_y, 'k')
+plt.plot(ass_x, ass_y, 'k')
+plt.plot(bur_x, bur_y, 'k')
+plt.plot(dis_x, dis_y, 'k')
+plt.plot(dru_x, dru_y, 'k')
+#plt.plot(dui_x, dui_y, 'g')
+plt.plot(fra_x, fra_y, 'k')
+plt.plot(hom_x, hom_y, 'b')
+plt.plot(mot_x, mot_y, 'k')
+plt.plot(oth_x, oth_y, 'k')
+plt.plot(rob_x, rob_y, 'k')
+plt.plot(sex_x, sex_y, 'k')
+plt.plot(the_x, the_y, 'k')
+plt.plot(van_x, van_y, 'k')
+plt.plot(veh_x, veh_y, 'k')
+plt.plot(wea_x, wea_y, 'r')
+plt.xticks(years, years)
+plt.ylim(ymin=0)
+plt.show()
+plt.close()
+
+ars_x, ars_y = linear_regression(arson, True)
+ass_x, ass_y = linear_regression(assault, True)
+bur_x, bur_y = linear_regression(burglary, True)
+dis_x, dis_y = linear_regression(dist_the_peace, True)
+dru_x, dru_y = linear_regression(drugs_alcohol, True)
+dui_x, dui_y = linear_regression(dui, True)
+fra_x, fra_y = linear_regression(fraud, True)
+hom_x, hom_y = linear_regression(homicide, True)
+mot_x, mot_y = linear_regression(motor_vehicle_theft, True)
+oth_x, oth_y = linear_regression(other, True)
+rob_x, rob_y = linear_regression(robbery, True)
+sex_x, sex_y = linear_regression(sex_crimes, True)
+the_x, the_y = linear_regression(theft_larceny, True)
+van_x, van_y = linear_regression(vandalism, True)
+veh_x, veh_y = linear_regression(vehicle_breakin_theft, True)
+wea_x, wea_y = linear_regression(weapons, True)
+
+plt.plot(ars_x, ars_y, 'k')
+plt.plot(ass_x, ass_y, 'k')
+plt.plot(bur_x, bur_y, 'k')
+plt.plot(dis_x, dis_y, 'k')
+plt.plot(dru_x, dru_y, 'k')
+#plt.plot(dui_x, dui_y, 'g')
+plt.plot(fra_x, fra_y, 'k')
+plt.plot(hom_x, hom_y, 'b')
+plt.plot(mot_x, mot_y, 'k')
+plt.plot(oth_x, oth_y, 'k')
+plt.plot(rob_x, rob_y, 'k')
+plt.plot(sex_x, sex_y, 'k')
+plt.plot(the_x, the_y, 'k')
+plt.plot(van_x, van_y, 'k')
+plt.plot(veh_x, veh_y, 'k')
+plt.plot(wea_x, wea_y, 'r')
+plt.xticks(years, years)
+plt.show()
+plt.close()
+
+ars_x, ars_y = linear_regression(right_subset(arson, 5), True)
+ass_x, ass_y = linear_regression(right_subset(assault, 5), True)
+bur_x, bur_y = linear_regression(right_subset(burglary, 5), True)
+dis_x, dis_y = linear_regression(right_subset(dist_the_peace, 5), True)
+dru_x, dru_y = linear_regression(right_subset(drugs_alcohol, 5), True)
+dui_x, dui_y = linear_regression(right_subset(dui, 5), True)
+fra_x, fra_y = linear_regression(right_subset(fraud, 5), True)
+hom_x, hom_y = linear_regression(right_subset(homicide, 5), True)
+mot_x, mot_y = linear_regression(right_subset(motor_vehicle_theft, 5), True)
+oth_x, oth_y = linear_regression(right_subset(other, 5), True)
+rob_x, rob_y = linear_regression(right_subset(robbery, 5), True)
+sex_x, sex_y = linear_regression(right_subset(sex_crimes, 5), True)
+the_x, the_y = linear_regression(right_subset(theft_larceny, 5), True)
+van_x, van_y = linear_regression(right_subset(vandalism, 5), True)
+veh_x, veh_y = linear_regression(right_subset(vehicle_breakin_theft, 5), True)
+wea_x, wea_y = linear_regression(right_subset(weapons, 5), True)
+
+plt.plot(ars_x, ars_y, 'k')
+plt.plot(ass_x, ass_y, 'k')
+plt.plot(bur_x, bur_y, 'k')
+plt.plot(dis_x, dis_y, 'k')
+plt.plot(dru_x, dru_y, 'k')
+#plt.plot(dui_x, dui_y, 'g')
+plt.plot(fra_x, fra_y, 'k')
+plt.plot(hom_x, hom_y, 'b')
+plt.plot(mot_x, mot_y, 'k')
+plt.plot(oth_x, oth_y, 'k')
+plt.plot(rob_x, rob_y, 'k')
+plt.plot(sex_x, sex_y, 'k')
+plt.plot(the_x, the_y, 'k')
+plt.plot(van_x, van_y, 'k')
+plt.plot(veh_x, veh_y, 'k')
+plt.plot(wea_x, wea_y, 'r')
+plt.xticks(years[-5:], years[-5:])
+plt.show()
+plt.close()
+
+ars_x, ars_y = linear_regression(right_subset(arson, 3), True)
+ass_x, ass_y = linear_regression(right_subset(assault, 3), True)
+bur_x, bur_y = linear_regression(right_subset(burglary, 3), True)
+dis_x, dis_y = linear_regression(right_subset(dist_the_peace, 3), True)
+dru_x, dru_y = linear_regression(right_subset(drugs_alcohol, 3), True)
+dui_x, dui_y = linear_regression(right_subset(dui, 3), True)
+fra_x, fra_y = linear_regression(right_subset(fraud, 3), True)
+hom_x, hom_y = linear_regression(right_subset(homicide, 3), True)
+mot_x, mot_y = linear_regression(right_subset(motor_vehicle_theft, 3), True)
+oth_x, oth_y = linear_regression(right_subset(other, 3), True)
+rob_x, rob_y = linear_regression(right_subset(robbery, 3), True)
+sex_x, sex_y = linear_regression(right_subset(sex_crimes, 3), True)
+the_x, the_y = linear_regression(right_subset(theft_larceny, 3), True)
+van_x, van_y = linear_regression(right_subset(vandalism, 3), True)
+veh_x, veh_y = linear_regression(right_subset(vehicle_breakin_theft, 3), True)
+wea_x, wea_y = linear_regression(right_subset(weapons, 3), True)
+
+plt.plot(ars_x, ars_y, 'k')
+plt.plot(ass_x, ass_y, 'k')
+plt.plot(bur_x, bur_y, 'k')
+plt.plot(dis_x, dis_y, 'k')
+plt.plot(dru_x, dru_y, 'k')
+#plt.plot(dui_x, dui_y, 'g')
+plt.plot(fra_x, fra_y, 'k')
+plt.plot(hom_x, hom_y, 'b')
+plt.plot(mot_x, mot_y, 'k')
+plt.plot(oth_x, oth_y, 'k')
+plt.plot(rob_x, rob_y, 'k')
+plt.plot(sex_x, sex_y, 'k')
+plt.plot(the_x, the_y, 'k')
+plt.plot(van_x, van_y, 'k')
+plt.plot(veh_x, veh_y, 'k')
+plt.plot(wea_x, wea_y, 'r')
+plt.xticks(years[-3:], years[-3:])
+plt.show()
+plt.close()
