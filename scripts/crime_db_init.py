@@ -9,6 +9,8 @@ import csv2db
 import sqlite3
 
 
+print('Initializing database...')
+
 # This dict maps files to tables in a one-to-one relationship.
 single_tables = {
     'HATE_CRIMES': '../data/LMPD_OP_BIAS_7',
@@ -56,7 +58,7 @@ for table_name, file_name in single_tables.items():
     create_statement = csv2db.compile_ct_statement(
         header, col_types, table_name
     )
-    print(create_statement)
+#    print(create_statement)
 
     insert_statement = (
         """
@@ -70,14 +72,20 @@ for table_name, file_name in single_tables.items():
     conn = sqlite3.connect('../lou_crime_database.db')
     cur = conn.cursor()
     try:
+        print('Dropping old temp table...')
         cur.execute("DROP TABLE IF EXISTS {};".format('TEMP_' + table_name))
+        print('Creating temp table...')
         cur.execute(temp_statement)
+        print('Inserting temp values...')
         cur.executemany(
             insert_statement.format('TEMP_' + table_name), table_values
         )
         conn.commit()
+        print('Dropping old table...')
         cur.execute("DROP TABLE IF EXISTS {};".format(table_name))
+        print('Creating table...')
         cur.execute(create_statement)
+        print('Inserting values...')
         cur.execute(
             """
             INSERT INTO {0}
@@ -86,6 +94,7 @@ for table_name, file_name in single_tables.items():
             """.format(table_name)
         )
         conn.commit()
+        print('New table created and populated using:\n' + create_statement)
     finally:
         conn.rollback()
         cur.close()
@@ -125,7 +134,7 @@ for table_name, file_names in merge_tables:
     create_statement = csv2db.compile_ct_statement(
         table_header, table_col_types, table_name
     )
-    print(create_statement)
+#    print(create_statement)
 
     insert_statement = (
         """
@@ -139,14 +148,20 @@ for table_name, file_names in merge_tables:
     conn = sqlite3.connect('../lou_crime_database.db')
     cur = conn.cursor()
     try:
+        print('Dropping old temp table...')
         cur.execute("DROP TABLE IF EXISTS {};".format('TEMP_' + table_name))
+        print('Creating temp table...')
         cur.execute(temp_statement)
+        print('Inserting temp values...')
         cur.executemany(
             insert_statement.format('TEMP_' + table_name), table_values
         )
         conn.commit()
+        print('Dropping old table...')
         cur.execute("DROP TABLE IF EXISTS {};".format(table_name))
+        print('Creating table...')
         cur.execute(create_statement)
+        print('Inserting values...')
         cur.execute(
             """
             INSERT INTO {0}
@@ -155,7 +170,10 @@ for table_name, file_names in merge_tables:
             """.format(table_name)
         )
         conn.commit()
+        print('New table created and populated using:\n' + create_statement)
     finally:
         conn.rollback()
         cur.close()
         conn.close()
+
+print('Database initialized.')

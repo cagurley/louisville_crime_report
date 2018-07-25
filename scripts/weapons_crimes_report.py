@@ -47,6 +47,8 @@ def linear_regression(point_dict, slope_comparison=False):
     return (x0, xf), (y0, yf)
 
 
+print('Compiling report...')
+
 arson = dict()
 assault = dict()
 burglary = dict()
@@ -332,3 +334,5 @@ plt.title('Adjusted Regressions per Crime Type 2015-2017')
 plt.savefig('../graphs/regressions_adjusted_03.png')
 plt.show()
 plt.close()
+
+print('Report compiled.')
