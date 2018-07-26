@@ -5,6 +5,8 @@ Created on Tue Jul 10 17:27:45 2018
 @author: Atticus
 """
 
+# This script runs several queries to CSV files
+# This is only intended for broadly picturing the data
 import csv2db
 import os
 

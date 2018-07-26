@@ -11,6 +11,11 @@ import sqlite3
 
 
 def right_subset(point_dict, num):
+    """
+    Returns a specified number of points
+    from a dict in order of greatest
+    x/key value to least in a new dict.
+    """
     item_list = list(point_dict.items())
     item_list.sort(key=None, reverse=True)
     new_dict = dict()
@@ -19,6 +24,16 @@ def right_subset(point_dict, num):
 
 
 def linear_regression(point_dict, slope_comparison=False):
+    """
+    Returns a two-tuple consisting of two-tuples
+    containing the x and y endpoints for a simple
+    linear regression line calculated for a dict of
+    points with x-values as keys and y-values as values.
+    If slope_comparison is set to True, then regression
+    y-values will be divided by their sample mean and the
+    x-intercept will be set to the lowest x-value in the
+    dict.
+    """
     x_bar = 0
     y_bar = 0
     numerator = 0
@@ -147,6 +162,7 @@ for row in results:
         vehicle_breakin_theft.update([(row[0], row[2])])
     elif row[1] == 'WEAPONS':
         weapons.update([(row[0], row[2])])
+
 if not os.path.exists('../graphs'):
     os.mkdir('../graphs')
 
@@ -170,7 +186,6 @@ plt.xlabel('Year of Occurrence')
 plt.ylabel('Crime Count')
 plt.title('Crimes 2008-2017')
 plt.savefig('../graphs/all_standard_10.png')
-plt.show()
 plt.close()
 
 wea_x, wea_y = linear_regression(weapons)
@@ -182,7 +197,6 @@ plt.xlabel('Year of Occurrence')
 plt.ylabel('Crime Count')
 plt.title('Weapons Crimes 2008-2017')
 plt.savefig('../graphs/weapons_standard_10.png')
-plt.show()
 plt.close()
 
 hom_x, hom_y = linear_regression(homicide)
@@ -194,9 +208,9 @@ plt.xlabel('Year of Occurrence')
 plt.ylabel('Crime Count')
 plt.title('Homicides 2008-2017')
 plt.savefig('../graphs/homicides_standard_10.png')
-plt.show()
 plt.close()
 
+# Note that weapons and homicide values were set above
 ars_x, ars_y = linear_regression(arson)
 ass_x, ass_y = linear_regression(assault)
 bur_x, bur_y = linear_regression(burglary)
@@ -231,7 +245,6 @@ plt.xlabel('Year of Occurrence')
 plt.ylabel('Crime Count')
 plt.title('Linear Regressions per Crime Type 2008-2017')
 plt.savefig('../graphs/regressions_standard_10.png')
-plt.show()
 plt.close()
 
 ars_x, ars_y = linear_regression(arson, True)
@@ -269,7 +282,6 @@ plt.xlabel('Year of Occurrence')
 plt.ylabel('Adjusted Crime Value')
 plt.title('Adjusted Regressions per Crime Type 2008-2017')
 plt.savefig('../graphs/regressions_adjusted_10.png')
-plt.show()
 plt.close()
 
 ars_x, ars_y = linear_regression(right_subset(arson, 5), True)
@@ -307,7 +319,6 @@ plt.xlabel('Year of Occurrence')
 plt.ylabel('Adjusted Crime Value')
 plt.title('Adjusted Regressions per Crime Type 2013-2017')
 plt.savefig('../graphs/regressions_adjusted_05.png')
-plt.show()
 plt.close()
 
 ars_x, ars_y = linear_regression(right_subset(arson, 3), True)

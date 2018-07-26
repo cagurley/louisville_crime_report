@@ -37,10 +37,12 @@ merge_tables = [
 # This block creates and inserts data into the one-to-one tables
 for table_name, file_name in single_tables.items():
     header, rows = csv2db.parse_csv_data(file_name)
+    # Correcting spelling in source file
     for index, field in enumerate(header):
         if field == 'DATE_OCCURED':
             header[index] = 'DATE_OCCURRED'
     col_types = csv2db.declare_col_types(header, rows)
+    # Correcting inconsistencies in source file
     for row in rows:
         entry_counter = 0
         for entry in row:
@@ -71,6 +73,7 @@ for table_name, file_name in single_tables.items():
     conn = sqlite3.connect('../lou_crime_database.db')
     cur = conn.cursor()
     try:
+        # First half creates temp table from raw data
         print('Dropping old temp table...')
         cur.execute("DROP TABLE IF EXISTS {};".format('TEMP_' + table_name))
         print('Creating temp table...')
@@ -80,6 +83,7 @@ for table_name, file_name in single_tables.items():
             insert_statement.format('TEMP_' + table_name), table_values
         )
         conn.commit()
+        # Second half creates perm table from distinct temp rows
         print('Dropping old table...')
         cur.execute("DROP TABLE IF EXISTS {};".format(table_name))
         print('Creating table...')
@@ -106,10 +110,12 @@ for table_name, file_names in merge_tables:
     file_rows = []
     for file_name in file_names:
         header, rows = csv2db.parse_csv_data(file_name)
+        # Correcting spelling in source file
         for index, field in enumerate(header):
             if field == 'DATE_OCCURED':
                 header[index] = 'DATE_OCCURRED'
         col_types = csv2db.declare_col_types(header, rows)
+        # Correcting inconsistencies in source file
         for row in rows:
             for index, entry in enumerate(row):
                 if entry == 'LVIL':
@@ -146,6 +152,7 @@ for table_name, file_names in merge_tables:
     conn = sqlite3.connect('../lou_crime_database.db')
     cur = conn.cursor()
     try:
+        # First half creates temp table from raw data
         print('Dropping old temp table...')
         cur.execute("DROP TABLE IF EXISTS {};".format('TEMP_' + table_name))
         print('Creating temp table...')
@@ -155,6 +162,7 @@ for table_name, file_names in merge_tables:
             insert_statement.format('TEMP_' + table_name), table_values
         )
         conn.commit()
+        # Second half creates perm table from distinct temp rows
         print('Dropping old table...')
         cur.execute("DROP TABLE IF EXISTS {};".format(table_name))
         print('Creating table...')

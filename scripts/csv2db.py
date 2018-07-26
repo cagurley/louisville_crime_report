@@ -11,6 +11,11 @@ import sqlite3
 
 
 def parse_csv_data(file_path):
+    """
+    Cleans CSV data at file_path without extension
+    in preparation for table creation using headers
+    and row insertion using body rows.
+    """
     rows = []
     with open(file_path + '.csv') as raw_data:
         reader = csv.reader(raw_data)
@@ -29,6 +34,11 @@ def parse_csv_data(file_path):
 
 
 def declare_col_types(header, rows):
+    """
+    Scans header and relevant field entries in
+    body rows to determine SQLite column types
+    in preparation for table creation.
+    """
     try:
         lengths = {len(header)}
         for row in rows:
@@ -63,6 +73,13 @@ def declare_col_types(header, rows):
 
 
 def compile_ct_statement(header, col_types, table_name, temporary=False):
+    """
+    Compiles a SQLite 'CREATE TABLE' statement using
+    header for column names and col_types and table_name
+    as expected. Setting temporary to True returns a
+    'CREATE TEMP TABLE' statement, prepending 'TEMP_' to
+    the provided table name.
+    """
     try:
         if re.search(r'\W+', table_name) is not None:
             raise ValueError("Table name error")
@@ -100,6 +117,12 @@ def compile_ct_statement(header, col_types, table_name, temporary=False):
 
 
 def merge_to_table(header_group, col_types_group, rows_list_group):
+    """
+    Safely merges groups of headers, column types, and rows
+    after checking that the provided headers and column types
+    are all respectively identical and that all header, column
+    type, and body rows are of equal length.
+    """
     try:
         lengths = set()
         header_set = set()
@@ -129,6 +152,11 @@ def merge_to_table(header_group, col_types_group, rows_list_group):
 
 
 def select_to_csv(db_path, select_statement, file_path='new_query'):
+    """
+    Connects to a database to issue the given select statement
+    and write the results as a CSV file at the given file_path
+    without extension.
+    """
     try:
         if (re.search(r'^(?:with|select).+;$', select_statement.strip(), flags=re.I | re.S) is None
                 or len(re.findall(r';', select_statement)) != 1):

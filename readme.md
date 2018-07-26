@@ -15,7 +15,7 @@ The graphs for the final report are generated after selecting counts of crimes g
 
 ## Instructions on Running
 
-This project uses uncompiled Python 3.6.5 scripts, and thus Python 3.6.5 or later should be installed on the relevant machine. The `csv`, `os`, `re`, and `sqlite3` standard library modules are all used; these should be installed with Python by default. In addition, the `matplotlib` non-standard library must be installed (via `pip install` or another method) in order to render the graphs. After ensuring these dependencies are satisfied, open a system shell and navigate the current working directory to the `/scripts/` subdirectory just beneath the project's top-level directory. Enter the Python shell and run `import main` to initialize the database and generate the graphs. Finally, open `report.html` in the top-level directory.
+This project uses uncompiled Python 3.6.5 scripts, and thus Python 3.6.5 or later should be installed on the relevant machine. The `csv`, `os`, `re`, and `sqlite3` standard library modules are all used; these should be installed with Python by default. In addition, the `matplotlib` non-standard library must be installed (via `python -m pip install matplotlib` or another method) in order to render the graphs. After ensuring these dependencies are satisfied and cloning or downloading the repository, open a system shell and navigate the current working directory to the `/scripts/` subdirectory just beneath the project's top-level directory. Enter the Python shell and run `import main` to initialize the database and generate the graphs. Finally, open `report.html` in a web browser from the top-level directory.
 
 To peruse the data via a lightweight, user-friendly GUI, downloading DB Browser for SQLite is recommended.
 
