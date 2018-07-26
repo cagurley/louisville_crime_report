@@ -3,92 +3,121 @@
   <head>
     <meta charset="utf-8">
     <title>Louisville Crime Report</title>
-    <link rel="stylesheet" type="text/css" href="custom.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/custom.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   </head>
   <body>
-    <h1>Types of Crimes on the Rise in Louisville, KY</h1>
-    <h2>
-      The significant rise in homicides in the metropolitan area is well known, but the stronger increase in another type of crime deserves immediate attention.
-    </h2>
-    <div>
-      <p>
-        To anyone closely following local news in Louisville, Kentucky, it is well known that the number of homicides in the metro area has spiked in recent years. However, the rate of increase in this type of crime in comparison to other types is not emphasized in media reports, and thus it is difficult to tell how troubling this is in the broader context of crime in Louisville. Moreover, this leads to another disquieting question: are there other types of crimes that have a similarly or more intensely dramatic increase relative to the expected number of crimes of that given type?
-      </p>
-      <p>
-        In brief and after my own analysis, I conclude that indeed the rise in homicides is significantly higher than nearly all other types of crimes in Louisville and rightfully deserves strong media attention. However, there is one other type with a relative rate of increase surpassing that of homicides, and the public at large should be concerned.
-      </p>
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title">Types of Crimes on the Rise in Louisville, KY</h1>
+      </div>
     </div>
-    <div>
-      <p>
-        To answer my inquiry, I used crime data from Louisville Metro Government's open data web portal provided by the Louisville Metro Police Department. I decided to use crimes from their 2008 file through their 2017 file as a 10-year basis to draw conclusions on long-term trends without using data old enough to not accurately reflect on current trends in the city. In addition, I eliminated crimes marked as occurring prior to 2008, as older crimes reported during this date range were included in the source data files.
-      </p>
-      <p>
-        These crimes have been grouped by the crime type indicated by the data's author. These crime types are as follows:
-        <ul>
-          <li>arson</li>
-          <li>assault</li>
-          <li>burglary</li>
-          <li>disturbing the peace</li>
-          <li>drugs/alcohol violations</li>
-          <li>fraud</li>
-          <li>homicide</li>
-          <li>motor vehicle theft</li>
-          <li>robbery</li>
-          <li>sex crimes</li>
-          <li>theft/larceny</li>
-          <li>vandalism</li>
-          <li>vehicle break-in/theft</li>
-          <li>weapons</li>
-        </ul>
-        Please note that one final type, DUI, was excluded due to the small sample size and high variance that became apparent during analysis; it is possible that this crime type might be inconsistently reported and confused with the more numerous "drugs/alcohol violations" category or that some other flaw in data entry and reporting is responsible for the skew. In addition, the "other" type was excluded due to the indeterminate nature of the crimes involved and the possibility for fluctuation as better classification practices are implemented.
-      </p>
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">
+          The significant rise in homicides in the metropolitan area is well known, but the stronger increase in another type of crime deserves immediate attention.
+        </h3>
+      </div>
     </div>
-    <div>
-      <p>
-        For the sake of establishing the basic shape of the data, the graph below illustrates the raw counts of individual data types.
-      </p>
-      <img src="./graphs/all_standard_10.png" alt="Crimes 2008-2017">
-      <p>
-        One can immediately see that the quantities of various types crimes during the span of 2008-2017 is highly varied, with the count of some individual crime types exceeding 15,000 in some years while other counts for different types in the same years can fail to reach a total of 100. To further illustrate the situation, it is beneficial to view the linear regressions of these lines on the same plot to more clearly see how the data trends for each crime type.
-      </p>
-      <img src="./graphs/regressions_standard_10.png" alt="Linear Regressions per Crime Type 2008-2017">
-      <p>
-        As can be seen, certain types have generally increasing trends while others tend to decrease, but the comparing one regression to another is difficult due to differences in scale. This makes direct comparison of these different types of crimes difficult without manipulation. I will return to this issue later on.
-      </p>
-      <p>
-        Now, note that the blue lines at the bottom of the graphs represent homicides; this type will retain this hue throughout the graphs in this report. Likewise, red, including the line in this figure, represents the category of weapons crimes in Louisville. As a sidebar, it's good to remember that, even though this line is at the bottom of the report as the crime type with the lowest annual counts, a small number of homicides is a large problem. Put another way, the number of homicides logically shouldn't equal or even remotely approximate the number of assaults in the city (or else everyone should have long left for anywhere else).
-      </p>
+    <div class="card">
+      <div class="card-body">
+        <p class="card-text">
+          To anyone closely following local news in Louisville, Kentucky, it is well known that the number of homicides in the metro area has spiked in recent years. However, the rate of increase in this type of crime in comparison to other types is not emphasized in media reports, and thus it is difficult to tell how troubling this is in the broader context of crime in Louisville. Moreover, this leads to another disquieting question: are there other types of crimes that have a similarly or more intensely dramatic increase relative to the expected number of crimes of that given type?
+        </p>
+        <p class="card-text">
+          In brief and after my own analysis, I conclude that indeed the rise in homicides is significantly higher than nearly all other types of crimes in Louisville and rightfully deserves strong media attention. However, there is one other type with a relative rate of increase surpassing that of homicides, and the public at large should be concerned.
+        </p>
+      </div>
     </div>
-    <div>
-      <p>
-        As homicides and weapons charges are going to be the focus of this report, it does well to see both individually to more clearly see both their shapes and their counts. The below graphs depict their respective counts over the 10-year period as well as their simple linear regressions.
-      </p>
-      <img src="./graphs/homicides_standard_10.png" alt="Homicides 2008-2017">
-      <img src="./graphs/weapons_standard_10.png" alt="Weapons 2008-2017">
-      <p>
-        By the positive slope of the regression lines, we can see that both types of crimes are increasing within Louisville. In addition, the resemblance in the shapes of the two datasets during the 2013-2017 span reveals striking increases in both (interestingly enough just after drops in both from 2012 counts).
-      </p>
+    <div class="card">
+      <div class="card-body">
+        <p class="card-text">
+          To answer my inquiry, I used crime data from Louisville Metro Government's open data web portal provided by the Louisville Metro Police Department. I decided to use crimes from their 2008 file through their 2017 file as a 10-year basis to draw conclusions on long-term trends without using data old enough to not accurately reflect on current trends in the city. In addition, I eliminated crimes marked as occurring prior to 2008, as older crimes reported during this date range were included in the source data files.
+        </p>
+        <p class="card-text">
+          These crimes have been grouped by the crime type indicated by the data's author. These crime types are as follows:
+        </p>
+        <div class="card-text row">
+          <div class="d-none d-md-block col-md-1 col-lg-2"></div>
+          <ul class="col-6 col-md-5 col-lg-4">
+            <li>arson</li>
+            <li>assault</li>
+            <li>burglary</li>
+            <li>disturbing the peace</li>
+            <li>drugs/alcohol violations</li>
+            <li>fraud</li>
+            <li>homicide</li>
+          </ul>
+          <ul class="col-6 col-md-5 col-lg-4">
+            <li>motor vehicle theft</li>
+            <li>robbery</li>
+            <li>sex crimes</li>
+            <li>theft/larceny</li>
+            <li>vandalism</li>
+            <li>vehicle break-in/theft</li>
+            <li>weapons</li>
+          </ul>
+          <div class="d-none d-md-block col-md-1 col-lg-2"></div>
+        </div>
+        <p class="card-text">
+          Please note that one final type, DUI, was excluded due to the small sample size and high variance that became apparent during analysis; it is possible that this crime type might be inconsistently reported and confused with the more numerous "drugs/alcohol violations" category or that some other flaw in data entry and reporting is responsible for the skew. In addition, the "other" type was excluded due to the indeterminate nature of the crimes involved and the possibility for fluctuation as better classification practices are implemented.
+        </p>
+      </div>
     </div>
-    <div>
-      <p>
-        While the shape of this data is grounds to suspect a significantly greater relative rate of increase in homicides and weapons crimes in comparison to other types of crimes, it is necessary to be able to compare rates among all crime types in spite of their differences in scale. To accomplish this, I calculated a separate adjusted linear regression for each crime type. This involves dividing the y-values (originally crime counts), the y-intercept, and the slope of each line by the mean of the y-values for the given crime type and sample size; thus, each adjusted regression reflects annual increase relative to the mean value for a given sample and its y-values represent fractions of the sample in relation the x-intercept. Regarding the x-intercept, these regressions are also translated vertically to set the x-intercept at the leftmost data point in each sample, which is purely to make facilitate easy comparison of these relative slopes (as all regressions will graphically begin at the same point).
-      </p>
-      <p>
-        Using this methodology, I constructed graphs using 10-year, 5-year, and 3-year samples, or for ranges 2008-2017, 2013-2017, and 2015-2017. The results shown below are conclusive.
-      </p>
-      <img src="./graphs/regressions_adjusted_10.png" alt="Adjusted Regressions per Crime Type 2008-2017">
-      <img src="./graphs/regressions_adjusted_05.png" alt="Adjusted Regressions per Crime Type 2013-2017">
-      <img src="./graphs/regressions_adjusted_03.png" alt="Adjusted Regressions per Crime Type 2015-2017">
-      <p>
-        In each interval, the rate of homicides exceeds the rate of all other crimes, save the rate of weapons crimes, which is consistently the highest. In particular, the 2013-2017 sample shows the starkest contrast with all other crime types, excepting the third-highest type, which understandably coincides with the beginning of the increases after the drops in 2012. The consistent positioning of weapons crimes as the highest relative rate and homicides as the second highest further indicates that this is not a short-term fluke but rather a reliable trend.
-      </p>
-      <p>
-        In conclusion, the media and the public at large are absolutely right to be concerned with the increasing homicide rate in Louisville given its near-dominant relative rate of increase in comparison to other types of crimes committed in the metro area. However, we should also address weapons crimes as at least of equal concern to public safety given its truly dominant relative rate of increase. The sure link between weapons crimes and homicides and the ability to commit other types of violent crimes with weapons should cause every Louisvillian to be deeply concerned by this trend.
-      </p>
+    <div class="card">
+      <div class="card-body">
+        <p>
+          For the sake of establishing the basic shape of the data, the graph below illustrates the raw counts of individual data types.
+        </p>
+        <img class="card-img" src="./graphs/all_standard_10.png" alt="Crimes 2008-2017">
+        <p>
+          One can immediately see that the quantities of various types crimes during the span of 2008-2017 is highly varied, with the count of some individual crime types exceeding 15,000 in some years while other counts for different types in the same years can fail to reach a total of 100. To further illustrate the situation, it is beneficial to view the linear regressions of these lines on the same plot to more clearly see how the data trends for each crime type.
+        </p>
+        <img class="card-img" src="./graphs/regressions_standard_10.png" alt="Linear Regressions per Crime Type 2008-2017">
+        <p>
+          As can be seen, certain types have generally increasing trends while others tend to decrease, but the comparing one regression to another is difficult due to differences in scale. This makes direct comparison of these different types of crimes difficult without manipulation. I will return to this issue later on.
+        </p>
+        <p>
+          Now, note that the blue lines at the bottom of the graphs represent homicides; this type will retain this hue throughout the graphs in this report. Likewise, red, including the line in this figure, represents the category of weapons crimes in Louisville. As a sidebar, it's good to remember that, even though this line is at the bottom of the report as the crime type with the lowest annual counts, a small number of homicides is a large problem. Put another way, the number of homicides logically shouldn't equal or even remotely approximate the number of assaults in the city (or else everyone should have long left for anywhere else).
+        </p>
+      </div>
     </div>
-    <div>
-      <p>Colton Atticus Gurley</p>
+    <div class="card">
+      <div class="card-body">
+        <p>
+          As homicides and weapons charges are going to be the focus of this report, it does well to see both individually to more clearly see both their shapes and their counts. The below graphs depict their respective counts over the 10-year period as well as their simple linear regressions.
+        </p>
+        <img class="card-img" src="./graphs/homicides_standard_10.png" alt="Homicides 2008-2017">
+        <img class="card-img" src="./graphs/weapons_standard_10.png" alt="Weapons 2008-2017">
+        <p>
+          By the positive slope of the regression lines, we can see that both types of crimes are increasing within Louisville. In addition, the resemblance in the shapes of the two datasets during the 2013-2017 span reveals striking increases in both (interestingly enough just after drops in both from 2012 counts).
+        </p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <p>
+          While the shape of this data is grounds to suspect a significantly greater relative rate of increase in homicides and weapons crimes in comparison to other types of crimes, it is necessary to be able to compare rates among all crime types in spite of their differences in scale. To accomplish this, I calculated a separate adjusted linear regression for each crime type. This involves dividing the y-values (originally crime counts), the y-intercept, and the slope of each line by the mean of the y-values for the given crime type and sample size; thus, each adjusted regression reflects annual increase relative to the mean value for a given sample and its y-values represent fractions of the sample in relation the x-intercept. Regarding the x-intercept, these regressions are also translated vertically to set the x-intercept at the leftmost data point in each sample, which is purely to make facilitate easy comparison of these relative slopes (as all regressions will graphically begin at the same point).
+        </p>
+        <p>
+          Using this methodology, I constructed graphs using 10-year, 5-year, and 3-year samples, or for ranges 2008-2017, 2013-2017, and 2015-2017. The results shown below are conclusive.
+        </p>
+        <img class="card-img" src="./graphs/regressions_adjusted_10.png" alt="Adjusted Regressions per Crime Type 2008-2017">
+        <img class="card-img" src="./graphs/regressions_adjusted_05.png" alt="Adjusted Regressions per Crime Type 2013-2017">
+        <img class="card-img" src="./graphs/regressions_adjusted_03.png" alt="Adjusted Regressions per Crime Type 2015-2017">
+        <p>
+          In each interval, the rate of homicides exceeds the rate of all other crimes, save the rate of weapons crimes, which is consistently the highest. In particular, the 2013-2017 sample shows the starkest contrast with all other crime types, excepting the third-highest type, which understandably coincides with the beginning of the increases after the drops in 2012. The consistent positioning of weapons crimes as the highest relative rate and homicides as the second highest further indicates that this is not a short-term fluke but rather a reliable trend.
+        </p>
+        <p>
+          In conclusion, the media and the public at large are absolutely right to be concerned with the increasing homicide rate in Louisville given its near-dominant relative rate of increase in comparison to other types of crimes committed in the metro area. However, we should also address weapons crimes as at least of equal concern to public safety given its truly dominant relative rate of increase. The sure link between weapons crimes and homicides and the ability to commit other types of violent crimes with weapons should cause every Louisvillian to be deeply concerned by this trend.
+        </p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h4 style="text-align: right;" class="card-title">By Colton Atticus Gurley</h4>
+      </div>
     </div>
   </body>
 </html>
