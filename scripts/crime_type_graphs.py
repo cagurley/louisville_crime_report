@@ -81,6 +81,25 @@ vandalism = dict()
 vehicle_breakin_theft = dict()
 weapons = dict()
 
+updates = {
+    'ARSON': arson,
+    'ASSAULT': assault,
+    'BURGLARY': burglary,
+    'DISTURBING THE PEACE': dist_the_peace,
+    'DRUGS/ALCOHOL VIOLATIONS': drugs_alcohol,
+    'DUI': dui,
+    'FRAUD': fraud,
+    'HOMICIDE':  homicide,
+    'MOTOR VEHICLE THEFT': motor_vehicle_theft,
+    'OTHER': other,
+    'ROBBERY': robbery,
+    'SEX CRIMES': sex_crimes,
+    'THEFT/LARCENY': theft_larceny,
+    'VANDALISM': vandalism,
+    'VEHICLE BREAK-IN/THEFT':  vehicle_breakin_theft,
+    'WEAPONS': weapons
+}
+
 years = []
 results = None
 conn = sqlite3.connect('../lou_crime_database.db')
@@ -113,55 +132,12 @@ finally:
     conn.close()
 
 for year in years:
-    arson.update([(year, 0)])
-    assault.update([(year, 0)])
-    burglary.update([(year, 0)])
-    dist_the_peace.update([(year, 0)])
-    drugs_alcohol.update([(year, 0)])
-    dui.update([(year, 0)])
-    fraud.update([(year, 0)])
-    homicide.update([(year, 0)])
-    motor_vehicle_theft.update([(year, 0)])
-    other.update([(year, 0)])
-    robbery.update([(year, 0)])
-    sex_crimes.update([(year, 0)])
-    theft_larceny.update([(year, 0)])
-    vandalism.update([(year, 0)])
-    vehicle_breakin_theft.update([(year, 0)])
-    weapons.update([(year, 0)])
+    for crime_type_dict in updates.values():
+        crime_type_dict.update([(year, 0)])
 for row in results:
-    if row[1] == 'ARSON':
-        arson.update([(row[0], row[2])])
-    elif row[1] == 'ASSAULT':
-        assault.update([(row[0], row[2])])
-    elif row[1] == 'BURGLARY':
-        burglary.update([(row[0], row[2])])
-    elif row[1] == 'DISTURBING THE PEACE':
-        dist_the_peace.update([(row[0], row[2])])
-    elif row[1] == 'DRUGS/ALCOHOL VIOLATIONS':
-        drugs_alcohol.update([(row[0], row[2])])
-    elif row[1] == 'DUI':
-        dui.update([(row[0], row[2])])
-    elif row[1] == 'FRAUD':
-        fraud.update([(row[0], row[2])])
-    elif row[1] == 'HOMICIDE':
-        homicide.update([(row[0], row[2])])
-    elif row[1] == 'MOTOR VEHICLE THEFT':
-        motor_vehicle_theft.update([(row[0], row[2])])
-    elif row[1] == 'OTHER':
-        other.update([(row[0], row[2])])
-    elif row[1] == 'ROBBERY':
-        robbery.update([(row[0], row[2])])
-    elif row[1] == 'SEX CRIMES':
-        sex_crimes.update([(row[0], row[2])])
-    elif row[1] == 'THEFT/LARCENY':
-        theft_larceny.update([(row[0], row[2])])
-    elif row[1] == 'VANDALISM':
-        vandalism.update([(row[0], row[2])])
-    elif row[1] == 'VEHICLE BREAK-IN/THEFT':
-        vehicle_breakin_theft.update([(row[0], row[2])])
-    elif row[1] == 'WEAPONS':
-        weapons.update([(row[0], row[2])])
+    for db_type_value, crime_type_dict in updates.items():
+        if row[1] == db_type_value:
+            crime_type_dict.update([(row[0], row[2])])
 
 if not os.path.exists('../graphs'):
     os.mkdir('../graphs')
