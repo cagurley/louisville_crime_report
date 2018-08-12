@@ -81,7 +81,7 @@ vandalism = dict()
 vehicle_breakin_theft = dict()
 weapons = dict()
 
-updates = {
+crime_types = {
     'ARSON': arson,
     'ASSAULT': assault,
     'BURGLARY': burglary,
@@ -132,30 +132,25 @@ finally:
     conn.close()
 
 for year in years:
-    for crime_type_dict in updates.values():
+    for crime_type_dict in crime_types.values():
         crime_type_dict.update([(year, 0)])
 for row in results:
-    for db_type_value, crime_type_dict in updates.items():
+    for db_type_value, crime_type_dict in crime_types.items():
         if row[1] == db_type_value:
             crime_type_dict.update([(row[0], row[2])])
 
 if not os.path.exists('../graphs'):
     os.mkdir('../graphs')
 
-plt.plot(arson.keys(), arson.values(), 'k')
-plt.plot(assault.keys(), assault.values(), 'k')
-plt.plot(burglary.keys(), burglary.values(), 'k')
-plt.plot(dist_the_peace.keys(), dist_the_peace.values(), 'k')
-plt.plot(drugs_alcohol.keys(), drugs_alcohol.values(), 'k')
-plt.plot(fraud.keys(), fraud.values(), 'k')
-plt.plot(homicide.keys(), homicide.values(), 'b')
-plt.plot(motor_vehicle_theft.keys(), motor_vehicle_theft.values(), 'k')
-plt.plot(robbery.keys(), robbery.values(), 'k')
-plt.plot(sex_crimes.keys(), sex_crimes.values(), 'k')
-plt.plot(theft_larceny.keys(), theft_larceny.values(), 'k')
-plt.plot(vandalism.keys(), vandalism.values(), 'k')
-plt.plot(vehicle_breakin_theft.keys(), vehicle_breakin_theft.values(), 'k')
-plt.plot(weapons.keys(), weapons.values(), 'r')
+for crime_type_dict in crime_types.values():
+    line_color = 'k'
+    if crime_type_dict == homicide:
+        line_color = 'b'
+    elif crime_type_dict == weapons:
+        line_color = 'r'
+    elif crime_type_dict in [dui, other]:
+        continue
+    plt.plot(crime_type_dict.keys(), crime_type_dict.values(), line_color)
 plt.xticks(years, years)
 plt.ylim(ymin=0)
 plt.xlabel('Year of Occurrence')
